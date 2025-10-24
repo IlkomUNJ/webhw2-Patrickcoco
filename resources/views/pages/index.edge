@@ -1,0 +1,99 @@
+@layout.main({title: 'Richiise Bakar'})
+
+    @slot('main')
+        <!-- Hero Section (Slideshow) -->
+        <section class="hero relative h-screen overflow-hidden">
+            <div class="slide active absolute inset-0 bg-cover bg-center" style="background-image: url('/images/slide1.jpeg');">
+            <div class="hero-text absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl md:text-6xl font-extrabold text-richgold bg-black/40 backdrop-blur-sm px-4 py-2 rounded">Richiise Bakar</div>
+            </div>
+            <div class="slide absolute inset-0 bg-cover bg-center" style="background-image: url('/images/slide2.png');">
+            <div class="hero-text absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl md:text-6xl font-extrabold text-richgold bg-black/40 backdrop-blur-sm px-4 py-2 rounded">Belum Pernah Ada</div>
+            </div>
+            <div class="slide absolute inset-0 bg-cover bg-center" style="background-image: url('/images/slide3.jpg');">
+            <div class="hero-text absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl md:text-6xl font-extrabold text-richgold bg-black/40 backdrop-blur-sm px-4 py-2 rounded">Terpercaya</div>
+            </div>
+        </section>
+
+        <!-- Our Brand -->
+        <section id="brand" class="bg-gradient-to-b from-richdark to-black py-20 px-4">
+            <div class="brand-container max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="brand-image reveal">
+                <img src="/images/produk.png" alt="Richiise Bakar" class="w-full rounded-2xl shadow-2xl transform transition-transform duration-300 hover:scale-105">
+            </div>
+            <div class="brand-text reveal text-center md:text-left">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-richgold mb-4">Our Brand</h2>
+                <p class="text-gray-200 mb-4">
+                Richiise Bakar adalah brand kuliner dengan menu ayam dada fillet
+                yang diproses dengan <strong>deep fried</strong>, diberi saus khas,
+                lalu dibakar hingga menghasilkan aroma lezat.
+                </p>
+                <ul class="brand-highlights list-none mb-6">
+                <li class="text-white mb-2">🔥 Rasa unik dengan saus khas</li>
+                <li class="text-white mb-2">💰 Harga ramah di kantong</li>
+                <li class="text-white">🥩 Bahan segar & berkualitas</li>
+                </ul>
+                <a href="/menu" class="inline-block bg-richgold text-black font-bold rounded-lg px-6 py-3 hover:bg-white hover:text-richdark transition">Lihat Menu</a>
+            </div>
+            </div>
+        </section>
+
+        <!-- Our Store -->
+        <section id="ourstore" class="py-16 px-4 text-center">
+            <h2 class="reveal text-2xl md:text-3xl font-bold bg-gradient-to-r from-richgold to-orange-400 bg-clip-text text-transparent mb-8">Our Store</h2>
+            <div class="store-logos flex justify-center gap-20 flex-wrap">
+            <div class="store-item reveal text-center">
+                <a href="https://gofood.link/a/HANh6q5" target="_blank">
+                <img src="/images/gofood.png" alt="Gofood" class="w-24 h-24 rounded-xl shadow-lg object-cover">
+                </a>
+                <p class="text-richgold font-bold mt-3">Gofood</p>
+            </div>
+            <div class="store-item reveal text-center">
+                <a href="https://shopee.co.id/universal-link/now-food/shop/21206278?deep_and_deferred=1&shareChannel=whatsapp" target="_blank">
+                <img src="/images/shopee.jpg" alt="Shopee Food" class="w-24 h-24 rounded-xl shadow-lg object-cover">
+                </a>
+                <p class="text-richgold font-bold mt-3">Shopee Food</p>
+            </div>
+            <div class="store-item reveal text-center">
+                <a href="https://food.grab.com/id/en/restaurant/online-delivery/6-C4CET2A1C34EUA?sourceID=20250327_162934_f538794b518f42e19b75f0e9576df5d0_MEXMPS" target="_blank">
+                <img src="/images/grab.png" alt="Grab Food" class="w-24 h-24 rounded-xl shadow-lg object-cover">
+                </a>
+                <p class="text-richgold font-bold mt-3">Grab Food</p>
+            </div>
+            </div>
+        </section>
+
+        <!-- Find Us -->
+        <section id="findus" class="py-20 px-4 bg-gradient-to-b from-black to-richdark text-center">
+            <h2 class="reveal text-2xl md:text-3xl font-bold bg-gradient-to-r from-richgold to-orange-400 bg-clip-text text-transparent mb-10">Find Us</h2>
+
+            <!-- Sosmed -->
+            <div class="social-container flex justify-center gap-16 flex-wrap mb-12">
+            <div class="social-item reveal text-center">
+                <a href="https://www.instagram.com/richbakar.kr/" target="_blank">
+                <img src="/images/ig.jpeg" alt="Instagram" class="w-20 h-20 rounded-full object-cover shadow-md mb-3">
+                </a>
+                <p class="text-richgold font-bold">@Richbakar.kr</p>
+            </div>
+            <div class="social-item reveal text-center">
+                <a href="https://wa.me/+6281284455118" target="_blank">
+                <img src="/images/wa.png" alt="WhatsApp" class="w-20 h-20 rounded-full object-cover shadow-md mb-3">
+                </a>
+                <p class="text-richgold font-bold">+62 812 8445 5118</p>
+            </div>
+            </div>
+
+            <!-- Map & Address -->
+            <div class="map-address max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div class="map md:col-span-2 reveal">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d6123.3225111309985!2d106.84052745913999!3d-6.180872427803635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1srichiise%20bakar%20.kramat!5e0!3m2!1sid!2sid!4v1759233425216!5m2!1sid!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-xl shadow-2xl"></iframe>
+            </div>
+            <div class="address reveal bg-white/5 backdrop-blur-md p-6 rounded-xl shadow-lg text-left">
+                <h3 class="text-2xl font-bold text-richgold mb-3">Our Address</h3>
+                <p class="text-gray-200 text-base leading-relaxed">Jl. Bakung No.274a<br>
+                Jakarta Pusat, Indonesia 10450<br>
+                Open: 10.00 - 22.00 WIB</p>
+            </div>
+            </div>
+            </section>
+    @endslot
+@end

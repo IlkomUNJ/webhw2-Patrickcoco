@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title || 'Richiise Bakar' }}</title>
+  <link rel="icon" type="image/png" href="/images/logoout.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mont: ['Montserrat', 'sans-serif'],
+          },
+          colors: {
+            richgold: '#FFD700',
+            richdark: '#3c0a09'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Smooth dropdown animation */
+    .group:hover .group-hover\:opacity-100 {
+      transition-delay: 50ms;
+      pointer-events: auto;
+    }
+    
+    /* Ensure dropdown is above other content */
+    .group {
+      z-index: 50;
+    }
+
+    /* Hide dropdown by default */
+    .group > div[class*="opacity-0"] {
+      pointer-events: none;
+    }
+
+    /* Add subtle shadow effect */
+    .group-hover\:scale-100 {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(255, 215, 0, 0.1);
+    }
+
+    /* Make navbar background more visible when scrolled */
+    #navbar.scrolled {
+      background-color: rgba(0, 0, 0, 0.95) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Fix dropdown positioning */
+    .group {
+      position: relative;
+    }
+
+    .group > div[class*="absolute"] {
+      position: absolute;
+      top: 100%;
+      right: 0;
+    }
+  </style>
+
+  <script>
+    // Add background to navbar when scrolled
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 10) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
+  
+  @vite(['resources/css/style.css', 'resources/css/menu.css'])
+</head>
+<body>
+  @include('components/navbar')
+  
+  {{{ await $slots.main() }}}
+
+  @include('components/footer')
+
+  @vite(['resources/js/menu.js', 'resources/js/script.js'])
+
+  @vite(['resources/js/menu.js', 'resources/js/script.js'])
+</body>
+</html>

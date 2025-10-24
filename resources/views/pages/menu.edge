@@ -1,0 +1,113 @@
+@component('components/layout/main')
+  @slot('main')
+  <!-- Header -->
+  <header class="relative py-24 bg-gradient-to-r from-richdark to-black">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-richgold mb-4">Our Menu</h1>
+      <p class="text-gray-300 text-lg">Discover our delicious selection of grilled dishes</p>
+    </div>
+  </header>
+
+  <!-- Menu Section -->
+  <section class="py-16 bg-gradient-to-b from-black to-richdark">
+    <div class="container mx-auto px-4">
+      <!-- Search and Filter -->
+      <div class="max-w-4xl mx-auto mb-12">
+        <form action="{{ route('products.search') }}" method="GET" class="flex flex-col md:flex-row gap-4">
+          <input 
+            type="text" 
+            name="q" 
+            placeholder="Search our menu..." 
+            class="flex-1 px-4 py-2 rounded-lg bg-white/10 text-white border border-richgold/30 focus:border-richgold focus:outline-none"
+          >
+          <select 
+            name="category" 
+            class="px-4 py-2 rounded-lg bg-white/10 text-white border border-richgold/30 focus:border-richgold focus:outline-none"
+          >
+            <option value="">All Categories</option>
+            <option value="richiise_bakar">Richiise Bakar</option>
+            <option value="chicken_katsu">Chicken Katsu</option>
+            <option value="chicken_steak">Chicken Steak</option>
+          </select>
+          <button type="submit" class="px-8 py-2 bg-richgold text-black font-bold rounded-lg hover:bg-white transition">
+            Search
+          </button>
+        </form>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="flex justify-center gap-4 flex-wrap mb-12">
+
+        <button 
+          onclick="window.location.href='{{ route('products.index', {}, { qs: { category: 'richiise_bakar' }}) }}'"
+          class="px-6 py-3 rounded-lg {{ !category || category === 'richiise_bakar' ? 'bg-richgold text-black' : 'bg-white/10 text-white' }} font-bold hover:bg-richgold hover:text-black transition"
+        >
+          Richiise Bakar
+        </button>
+        <button 
+          onclick="window.location.href='{{ route('products.index', {}, { qs: { category: 'chicken_katsu' }}) }}'"
+          class="px-6 py-3 rounded-lg {{ category === 'chicken_katsu' ? 'bg-richgold text-black' : 'bg-white/10 text-white' }} font-bold hover:bg-richgold hover:text-black transition"
+        >
+          Chicken Katsu
+        </button>
+        <button 
+          onclick="window.location.href='{{ route('products.index', {}, { qs: { category: 'chicken_steak' }}) }}'"
+          class="px-6 py-3 rounded-lg {{ category === 'chicken_steak' ? 'bg-richgold text-black' : 'bg-white/10 text-white' }} font-bold hover:bg-richgold hover:text-black transition"
+        >
+          Chicken Steak
+        </button>
+      </div>
+
+      <!-- Menu Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @each(product in products)
+          <div class="menu-card bg-white/5 backdrop-blur rounded-xl overflow-hidden shadow-lg hover:transform hover:-translate-y-2 transition duration-300">
+            @if(product.image)
+              <img src="{{ product.image }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
+            @else
+              <div class="w-full h-48 bg-gray-800 flex items-center justify-center">
+                <span class="text-gray-600">No image</span>
+              </div>
+            @end
+
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-white mb-2">{{ product.name }}</h3>
+              <p class="text-gray-400 mb-4 line-clamp-2">{{ product.description }}</p>
+              
+              <div class="flex items-center justify-between">
+                <span class="text-richgold font-bold text-xl">Rp {{ product.price }}</span>
+                <form action="{{ route(product.isInWishlist ? 'wishlists.destroy' : 'wishlists.store', [product.id]) }}" method="POST" class="wishlist-form inline">
+                  {{ csrfField() }}
+                  @if(product.isInWishlist)
+                    {{ methodField('DELETE') }}
+                  @end
+                  <input type="hidden" name="product_id" value="{{ product.id }}">
+                  <button type="submit" class="text-richgold hover:text-white transition">
+                    <i class="{{ product.isInWishlist ? 'fas text-red-500' : 'far text-gray-400' }} fa-heart text-xl hover:scale-110 transform duration-200"></i>
+                  </button>
+                </form>
+              </div>
+
+              <a 
+                href="{{ route('products.show', [product.id]) }}" 
+                class="mt-4 block text-center bg-richgold text-black font-bold px-6 py-2 rounded-lg hover:bg-white transition"
+              >
+                View Details
+              </a>
+            </div>
+          </div>
+        @else
+          <div class="col-span-3 text-center py-12">
+            <div class="text-richgold mb-4">
+              <i class="fas fa-utensils text-5xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">No menu items found</h3>
+            <p class="text-gray-400">Try adjusting your search or category filter</p>
+          </div>
+        @end
+      </div>
+    </div>
+  </section>
+  @end
+@end

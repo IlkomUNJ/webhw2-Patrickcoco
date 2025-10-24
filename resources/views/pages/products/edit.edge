@@ -1,0 +1,111 @@
+@layout('components/layout/main')
+@section('content')
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold">Edit Product</h1>
+      <a href="{{ route('products.index') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
+        Back to Products
+      </a>
+    </div>
+
+    <div class="max-w-2xl mx-auto">
+      <form action="{{ route('products.update', [product.id]) }}" method="POST" enctype="multipart/form-data">
+        {{ csrfField() }}
+        {{ methodField('PUT') }}
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <div class="mb-4">
+            <label for="name" class="block text-gray-700 mb-2">Product Name</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              value="{{ product.name }}"
+              required 
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+          </div>
+
+          <div class="mb-4">
+            <label for="description" class="block text-gray-700 mb-2">Description</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              required 
+              rows="4" 
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            >{{ product.description }}</textarea>
+          </div>
+
+          <div class="mb-4">
+            <label for="price" class="block text-gray-700 mb-2">Price (Rp)</label>
+            <input 
+              type="number" 
+              id="price" 
+              name="price" 
+              value="{{ product.price }}"
+              required 
+              min="0" 
+              step="1000" 
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+          </div>
+
+          <div class="mb-4">
+            <label for="category" class="block text-gray-700 mb-2">Category</label>
+            <select 
+              id="category" 
+              name="category" 
+              required 
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="">Select a category</option>
+              <option value="richiise_bakar" {{ product.category === 'richiise_bakar' ? 'selected' : '' }}>
+                Richiise Bakar
+              </option>
+              <option value="chicken_katsu" {{ product.category === 'chicken_katsu' ? 'selected' : '' }}>
+                Chicken Katsu
+              </option>
+              <option value="chicken_steak" {{ product.category === 'chicken_steak' ? 'selected' : '' }}>
+                Chicken Steak
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label for="is_available" class="flex items-center">
+              <input 
+                type="checkbox" 
+                id="is_available" 
+                name="is_available" 
+                {{ product.isAvailable ? 'checked' : '' }}
+                class="mr-2"
+              >
+              <span class="text-gray-700">Product is available</span>
+            </label>
+          </div>
+
+          <div class="mb-6">
+            <label for="image" class="block text-gray-700 mb-2">Product Image</label>
+            @if(product.image)
+              <div class="mb-2">
+                <img src="{{ product.image }}" alt="{{ product.name }}" class="w-32 h-32 object-cover rounded">
+              </div>
+            @end
+            <input 
+              type="file" 
+              id="image" 
+              name="image" 
+              accept="image/*" 
+              class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+          </div>
+
+          <button type="submit" class="w-full bg-primary text-white px-6 py-3 rounded hover:bg-primary-dark">
+            Update Product
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+@end

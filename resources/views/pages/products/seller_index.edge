@@ -1,0 +1,142 @@
+@layout('components/layout/main')
+@section('content')
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-white">Product Management</h1>
+      <a href="{{ route('products.create') }}" class="bg-richgold text-black px-6 py-2 rounded-lg font-bold hover:bg-white transition">
+        Add New Product
+      </a>
+    </div>
+
+    <div class="bg-white/5 backdrop-blur rounded-lg shadow-lg overflow-hidden">
+      <div class="p-4">
+        <div class="flex gap-4 mb-6">
+          <select 
+            id="categoryFilter" 
+            class="p-2 rounded-lg bg-white/10 text-white border border-richgold/30 focus:border-richgold focus:outline-none"
+            onchange="window.location.href = this.value"
+          >
+            <option value="{{ route('products.index') }}" {{ !category ? 'selected' : '' }}>
+              All Categories
+            </option>
+            <option value="{{ route('products.index', {}, { qs: { category: 'richiise_bakar' }}) }}" 
+              {{ category === 'richiise_bakar' ? 'selected' : '' }}>
+              Richiise Bakar
+            </option>
+            <option value="{{ route('products.index', {}, { qs: { category: 'chicken_katsu' }}) }}"
+              {{ category === 'chicken_katsu' ? 'selected' : '' }}>
+              Chicken Katsu
+            </option>
+            <option value="{{ route('products.index', {}, { qs: { category: 'chicken_steak' }}) }}"
+              {{ category === 'chicken_steak' ? 'selected' : '' }}>
+              Chicken Steak
+            </option>
+          </select>
+
+          <select 
+            id="availabilityFilter" 
+            class="p-2 rounded-lg bg-white/10 text-white border border-richgold/30 focus:border-richgold focus:outline-none"
+            onchange="window.location.href = this.value"
+          >
+            <option value="{{ route('products.index') }}" {{ !availability ? 'selected' : '' }}>
+              All Status
+            </option>
+            <option value="{{ route('products.index', {}, { qs: { availability: 'available' }}) }}"
+              {{ availability === 'available' ? 'selected' : '' }}>
+              Available
+            </option>
+            <option value="{{ route('products.index', {}, { qs: { availability: 'unavailable' }}) }}"
+              {{ availability === 'unavailable' ? 'selected' : '' }}>
+              Unavailable
+            </option>
+          </select>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-700">
+            <thead>
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  Product
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  Category
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  Price
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  Status
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-700">
+              @each(product in products)
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      @if(product.image)
+                        <img src="{{ product.image }}" alt="{{ product.name }}" class="w-12 h-12 object-cover rounded">
+                      @else
+                        <div class="w-12 h-12 bg-gray-800 rounded flex items-center justify-center">
+                          <span class="text-gray-600 text-xs">No image</span>
+                        </div>
+                      @end
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-white">
+                          {{ product.name }}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-richgold/20 text-richgold">
+                      {{ product.category.replace('_', ' ').toUpperCase() }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    Rp {{ product.price }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    @if(product.isAvailable)
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-900/50 text-green-400">
+                        Available
+                      </span>
+                    @else
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-900/50 text-red-400">
+                        Unavailable
+                      </span>
+                    @end
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div class="flex gap-2">
+                      <a href="{{ route('products.edit', [product.id]) }}" class="text-blue-400 hover:text-blue-300">
+                        Edit
+                      </a>
+                      <form action="{{ route('products.destroy', [product.id]) }}" method="POST" class="inline">
+                        {{ csrfField() }}
+                        {{ methodField('DELETE') }}
+                        <button type="submit" class="text-red-400 hover:text-red-300 ml-4">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              @else
+                <tr>
+                  <td colspan="5" class="px-6 py-4 text-center text-gray-400">
+                    No products found
+                  </td>
+                </tr>
+              @end
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+@end

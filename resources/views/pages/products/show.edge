@@ -1,0 +1,59 @@
+@layout('components/layout/main')
+@section('content')
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="md:flex">
+          <div class="md:flex-shrink-0 md:w-1/2">
+            @if(product.image)
+              <img src="{{ product.image }}" alt="{{ product.name }}" class="w-full h-96 object-cover">
+            @else
+              <div class="w-full h-96 bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-400">No image</span>
+              </div>
+            @end
+          </div>
+          
+          <div class="p-8 md:w-1/2">
+            <div class="uppercase tracking-wide text-sm text-primary font-semibold">
+              {{ product.category.replace('_', ' ').toUpperCase() }}
+            </div>
+            <h1 class="mt-2 text-3xl font-bold">{{ product.name }}</h1>
+            <p class="mt-4 text-gray-600">{{ product.description }}</p>
+            
+            <div class="mt-8">
+              <span class="text-2xl font-bold">Rp {{ product.price }}</span>
+            </div>
+
+            <form action="{{ route(product.isInWishlist ? 'wishlists.destroy' : 'wishlists.store', [product.id]) }}" method="POST" class="mt-6">
+              {{ csrfField() }}
+              @if(product.isInWishlist)
+                {{ methodField('DELETE') }}
+              @end
+              <input type="hidden" name="product_id" value="{{ product.id }}">
+              <button type="submit" class="w-full bg-richgold text-black px-6 py-3 rounded-lg hover:bg-white transition-all duration-300">
+                <i class="{{ product.isInWishlist ? 'fas' : 'far' }} fa-heart mr-2"></i>
+                {{ product.isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}
+              </button>
+            </form>
+
+            @if(auth.user?.isSeller())
+              <div class="mt-6 flex gap-4">
+                <a href="{{ route('products.edit', [product.id]) }}" class="flex-1 text-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                  Edit Product
+                </a>
+                <form action="{{ route('products.delete', [product.id]) }}" method="POST" class="flex-1">
+                  {{ csrfField() }}
+                  {{ methodField('DELETE') }}
+                  <button type="submit" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                    Delete
+                  </button>
+                </form>
+              </div>
+            @end
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+@end

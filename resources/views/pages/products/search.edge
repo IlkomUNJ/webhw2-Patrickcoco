@@ -1,0 +1,64 @@
+@layout('components/layout/main')
+@section('content')
+  <div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-4">Search Results</h1>
+      <form action="{{ route('products.search') }}" method="GET" class="flex gap-4 mb-6">
+        <input 
+          type="text" 
+          name="q" 
+          value="{{ query || '' }}"
+          placeholder="Search for dishes..." 
+          class="flex-1 p-2 border rounded"
+        >
+        <select name="category" class="p-2 border rounded">
+          <option value="">All Categories</option>
+          <option value="richiise_bakar" {{ category === 'richiise_bakar' ? 'selected' : '' }}>Richiise Bakar</option>
+          <option value="chicken_katsu" {{ category === 'chicken_katsu' ? 'selected' : '' }}>Chicken Katsu</option>
+          <option value="chicken_steak" {{ category === 'chicken_steak' ? 'selected' : '' }}>Chicken Steak</option>
+        </select>
+        <button type="submit" class="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark">
+          Search
+        </button>
+      </form>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @each(product in products)
+        <div class="border rounded-lg overflow-hidden shadow-lg">
+          @if(product.image)
+            <img src="{{ product.image }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
+          @else
+            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+              <span class="text-gray-400">No image</span>
+            </div>
+          @end
+
+          <div class="p-4">
+            <h3 class="text-xl font-semibold mb-2">{{ product.name }}</h3>
+            <p class="text-gray-600 mb-4">{{ product.description }}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-bold">Rp {{ product.price }}</span>
+              @if(auth.user)
+                <form action="{{ route('wishlists.store') }}" method="POST">
+                  {{ csrfField() }}
+                  <input type="hidden" name="product_id" value="{{ product.id }}">
+                  <button type="submit" class="text-primary hover:text-primary-dark">
+                    <i class="fas fa-heart"></i> Add to Wishlist
+                  </button>
+                </form>
+              @end
+            </div>
+            <a href="{{ route('products.show', [product.id]) }}" class="mt-4 block text-center bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
+              View Details
+            </a>
+          </div>
+        </div>
+      @else
+        <div class="col-span-3 text-center py-8">
+          <p class="text-gray-600">No products found matching your search criteria.</p>
+        </div>
+      @end
+    </div>
+  </div>
+@end
